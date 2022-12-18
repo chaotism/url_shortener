@@ -1,0 +1,11 @@
+posite_name: FastAPI urlshortener
+nav:
+  - Get started: docs/index.md
+theme:
+  name: 'material'
+markdown_extensions:
+  - admonition
+  - codehilite
+
+repo_name: 'chaotism/url_shortener'
+repo_url: 'https://github.com/chaotism/url_shortener'
