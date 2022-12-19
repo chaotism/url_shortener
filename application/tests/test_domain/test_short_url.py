@@ -110,7 +110,7 @@ class TestUrlShorterService:
                 'POTATO',
                 None,
                 ServiceError(
-                    'Short url with this name POTATO is already exists: http://looooong.com/somepath'
+                    'Short url with this name POTATO is already exists with different url: http://looooong.com/somepath'
                 ),
             ),
             (
