@@ -5,8 +5,8 @@ init:
 	pip install poetry
 	poetry install
 
-pre-commit:
-	pre-commit install
+pre-commit-check:
+	pre-commit install && pre-commit run --all-files
 
 black:
 	black application/
