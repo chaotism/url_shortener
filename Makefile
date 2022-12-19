@@ -12,7 +12,7 @@ test:
 	cd $(APP_PATH) && poetry run python -m pytest --cov=. --cov-report=xml --cov-append --no-cov-on-fail --verbose --color=yes $(TEST_PATH)
 
 pre-commit-check:
-	pre-commit install && pre-commit run --all-files
+	poetry run pre-commit install && poetry run pre-commit run --all-files
 
 compose_build:
 	docker-compose -f docker/docker-compose-dev.yml build
