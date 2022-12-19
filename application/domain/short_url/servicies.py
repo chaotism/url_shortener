@@ -2,13 +2,11 @@ from typing import Optional
 
 from pydantic import ValidationError
 
-from ..errors import EntityError
-from ..errors import ServiceError
+from ..errors import EntityError, ServiceError
 from ..types import Service
 from .entities import ShortUrlEntity
 from .repositories import UrlRepository
-from .types import FullUrl
-from .types import UrlName
+from .types import FullUrl, UrlName
 
 
 class UrlShorterService(Service):
@@ -20,7 +18,7 @@ class UrlShorterService(Service):
         try:
             return ShortUrlEntity(full_url=url, name=name)
         except (EntityError, ValidationError) as err:  # TODO: remove ValidationError
-            raise ServiceError("Get error for making entity") from err
+            raise ServiceError('Get error for making entity') from err
 
     async def register_url(
         self, url: FullUrl, name: Optional[UrlName] = None
@@ -31,9 +29,9 @@ class UrlShorterService(Service):
                 if exist_short_url.full_url == url:
                     return exist_short_url
                 raise ServiceError(
-                    f"Short url with this name {name} is already exists with different url: {exist_short_url.full_url}"
+                    f'Short url with this name {name} is already exists with different url: {exist_short_url.full_url}'
                 )
-            url_data["name"] = name
+            url_data['name'] = name
 
         url_entity = self._make_url_entity(**url_data)
         async with self.url_repo.atomic():  # TODO: make it simpler
@@ -51,7 +49,7 @@ class UrlShorterService(Service):
         if not urls:
             return None
         if len(urls) > 1:
-            raise ServiceError(f"Find more than one url by name {name}: {urls}")
+            raise ServiceError(f'Find more than one url by name {name}: {urls}')
         return urls[0]
 
     async def remove_url(self, name: UrlName) -> Optional[ShortUrlEntity]:

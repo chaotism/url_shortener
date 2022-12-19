@@ -4,7 +4,7 @@ from pydantic import AnyHttpUrl
 
 from ..types import PDObjectId
 
-UrlID = NewType("UrlID", PDObjectId)
+UrlID = NewType('UrlID', PDObjectId)
 
 
 class UrlName(str):
@@ -17,14 +17,14 @@ class UrlName(str):
     @classmethod
     def validate(cls, v):
         if len(v) > UrlName.max_length:
-            raise ValueError("Url name too long")
+            raise ValueError('Url name too long')
         return v
 
     @classmethod
     def __modify_schema__(cls, field_schema):
         field_schema.update(
-            type="string",
-            examples=["POTATO", "MY-NEW-WS"],
+            type='string',
+            examples=['POTATO', 'MY-NEW-WS'],
         )
 
 

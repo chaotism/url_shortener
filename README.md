@@ -11,6 +11,7 @@ This project based on `https://github.com/chaotism/fastapi-purser/`
 ## Close plans
 add supporting redis as db
 add cache for get requests
+add mypy to git-commit hooks (need fix issues)
 migrate to python 3.11
 fix TODOS
 

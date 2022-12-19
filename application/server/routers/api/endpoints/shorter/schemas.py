@@ -1,8 +1,6 @@
 from typing import Optional
 
-from domain.short_url import FullUrl
-from domain.short_url import ShortUrl
-from domain.short_url import UrlName
+from domain.short_url import FullUrl, ShortUrl, UrlName
 from pydantic import BaseModel
 
 

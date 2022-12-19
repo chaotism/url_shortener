@@ -1,2 +1,1 @@
-from .middlewares import add_process_time_header
-from .middlewares import logging_access_token
+from .middlewares import add_process_time_header, logging_access_token
