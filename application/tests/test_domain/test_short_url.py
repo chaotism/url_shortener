@@ -24,7 +24,7 @@ class TestUrlEntity:
             (
                 "http://looooong.com/somepath",
                 None,
-                "32533af22a12004e6654effbb596c715d1fb1c56127e7c89739c7892a64097dd",
+                "32533af22a12004e6654effbb596c715d1fb1c56127e7c8973",
             ),
             ("http://looooong.com/somepath", "POTATO", "POTATO"),
         ),

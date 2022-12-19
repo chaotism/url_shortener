@@ -5,14 +5,14 @@ init:
 	pip install poetry
 	poetry install
 
-pre-commit-check:
-	pre-commit install && pre-commit run --all-files
-
-black:
-	black application/
+run:
+	cd application && uvicorn server.app:app --host 0.0.0.0 --port=8888
 
 test:
-	cd $(APP_PATH) && poetry run python -m pytest --cov=application --verbose --color=yes $(TEST_PATH)
+	cd $(APP_PATH) && poetry run python -m pytest --cov=. --cov-report=xml --cov-append --no-cov-on-fail --verbose --color=yes $(TEST_PATH)
+
+pre-commit-check:
+	pre-commit install && pre-commit run --all-files
 
 compose_build:
 	docker-compose -f docker/docker-compose-dev.yml build

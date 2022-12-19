@@ -15,3 +15,7 @@ class ShortUrlCreate(BaseModel):
 # Properties to return to client
 class StoredShortUrl(BaseModel):
     short_url: ShortUrl
+
+
+class StoredFullUrl(BaseModel):
+    full_url: FullUrl

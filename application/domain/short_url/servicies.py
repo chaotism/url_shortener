@@ -31,7 +31,7 @@ class UrlShorterService(Service):
                 if exist_short_url.full_url == url:
                     return exist_short_url
                 raise ServiceError(
-                    f"Short url with this name {name} is already exists: {exist_short_url.full_url}"
+                    f"Short url with this name {name} is already exists with different url: {exist_short_url.full_url}"
                 )
             url_data["name"] = name
 

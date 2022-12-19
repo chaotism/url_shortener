@@ -5,8 +5,8 @@ services:
     command: mongod --logpath=/dev/null
     ports:
       - "9999:27017"
-    volumes:
-      - "../var/mongo-data/:/data/db"
+#    volumes:
+#      - "../var/mongo-data/:/data/db"
   api:
     build:
       context: ../
