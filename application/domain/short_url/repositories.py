@@ -63,11 +63,7 @@ class MotorUrlRepository(UrlRepository):
 
     def _create_indexes(self):
         logger.info("Creating indexes")
-        self.collection.create_index("email", unique=True, sparse=True, background=True)
-        self.collection.create_index(
-            "affiliate_code", unique=True, sparse=True, background=True
-        )
-        self.collection.create_index("is_sent", background=True)
+        self.collection.create_index("name", unique=True, sparse=True, background=True)
 
     async def get_count(self) -> int:
         return self.collection.count_documents({})
@@ -81,7 +77,7 @@ class MotorUrlRepository(UrlRepository):
         return ShortUrlEntity(**url)
 
     async def find_by_name(self, name: UrlName) -> List[ShortUrlEntity]:
-        urls_data_cursor = await self.collection.find({"name": name})
+        urls_data_cursor = self.collection.find({"name": name})
         urls_data = [
             data for data in await urls_data_cursor.to_list(length=self.buff_size)
         ]

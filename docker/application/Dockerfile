@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 ENV SERVICE_NAME "fast-url-shortener"
 ENV USER_HOME "/opt/$SERVICE_NAME"
