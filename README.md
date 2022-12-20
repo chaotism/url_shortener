@@ -1,3 +1,6 @@
+Small project for implementing TinyUrl shortener. Written with fast-api and ddd paradigma.
+
+
 # Run from root folder
 docker-compose  -f docker/docker-compose-dev.yml up
 
