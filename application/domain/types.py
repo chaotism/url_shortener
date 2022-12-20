@@ -1,7 +1,4 @@
-from datetime import date
-from datetime import datetime
-from datetime import time
-from datetime import timedelta
+from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from enum import Enum
 from types import GeneratorType
@@ -9,8 +6,7 @@ from typing import Optional
 from uuid import UUID
 
 from bson import ObjectId
-from pydantic import BaseModel
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 
 class PDObjectId(ObjectId):
@@ -21,12 +17,12 @@ class PDObjectId(ObjectId):
     @classmethod
     def validate(cls, v):
         if not ObjectId.is_valid(v):
-            raise ValueError("Invalid ObjectId")
+            raise ValueError('Invalid ObjectId')
         return ObjectId(v)
 
     @classmethod
     def __modify_schema__(cls, field_schema):
-        field_schema.update(type="string")
+        field_schema.update(type='string')
 
 
 class EncodedModel(BaseModel):
@@ -48,7 +44,7 @@ class EncodedModel(BaseModel):
 
 
 class Entity(EncodedModel):
-    id: Optional[PDObjectId] = Field(alias="_id")
+    id: Optional[PDObjectId] = Field(alias='_id')
     created_at: Optional[datetime] = Field(default_factory=lambda: datetime.now())
 
     def get_id(self):
@@ -61,9 +57,9 @@ class Entity(EncodedModel):
         hidden_fields = {
             attribute_name
             for attribute_name, model_field in self.__fields__.items()
-            if model_field.field_info.extra.get("hidden") is True
+            if model_field.field_info.extra.get('hidden') is True
         }
-        kwargs.setdefault("exclude", hidden_fields)
+        kwargs.setdefault('exclude', hidden_fields)
         return super().dict(*args, **kwargs)
 
 

@@ -1,7 +1,5 @@
-from dbs.mongo import get_mongo_client
-from dbs.mongo import get_mongo_db
-from domain.short_url import MotorUrlRepository
-from domain.short_url import UrlShorterService
+from dbs.mongo import get_mongo_client, get_mongo_db
+from domain.short_url import MotorUrlRepository, UrlShorterService
 
 
 async def get_url_shorter_service() -> UrlShorterService:

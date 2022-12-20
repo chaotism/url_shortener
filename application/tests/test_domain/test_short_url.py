@@ -3,13 +3,14 @@ from typing import List
 
 import pytest
 from bson import ObjectId
-from domain.errors import EntityError
-from domain.errors import ServiceError
-from domain.short_url import ShortUrlEntity
-from domain.short_url import UrlID
-from domain.short_url import UrlName
-from domain.short_url import UrlRepository
-from domain.short_url import UrlShorterService
+from domain.errors import EntityError, ServiceError
+from domain.short_url import (
+    ShortUrlEntity,
+    UrlID,
+    UrlName,
+    UrlRepository,
+    UrlShorterService,
+)
 from domain.types import PDObjectId
 
 
@@ -19,14 +20,14 @@ class TestUrlEntity:
     """
 
     @pytest.mark.parametrize(
-        "input_url, input_name, result_name",
+        'input_url, input_name, result_name',
         (
             (
-                "http://looooong.com/somepath",
+                'http://looooong.com/somepath',
                 None,
-                "32533af22a12004e6654effbb596c715d1fb1c56127e7c8973",
+                '32533af22a12004e6654effbb596c715d1fb1c56127e7c8973',
             ),
-            ("http://looooong.com/somepath", "POTATO", "POTATO"),
+            ('http://looooong.com/somepath', 'POTATO', 'POTATO'),
         ),
     )
     def test_fulfill_name(self, input_url, input_name, result_name):
@@ -34,22 +35,22 @@ class TestUrlEntity:
         assert str(entity.name) == result_name
 
     def test_generate_short_url(self):
-        entity = ShortUrlEntity(full_url="http://looooong.com/somepath", name="POTATO")
-        assert entity.generate_short_url("http://0.0.0.0") == "http://0.0.0.0/POTATO"
+        entity = ShortUrlEntity(full_url='http://looooong.com/somepath', name='POTATO')
+        assert entity.generate_short_url('http://0.0.0.0') == 'http://0.0.0.0/POTATO'
 
 
 class TestUrlShorterService:
-    host = "http://short.com"
+    host = 'http://short.com'
 
     @pytest.fixture()
     def simple_url(self):
         return ShortUrlEntity(
             _id=ObjectId(),
-            full_url="http://looooong.com/somepath",
-            name="MY-NEW-WS",
+            full_url='http://looooong.com/somepath',
+            name='MY-NEW-WS',
         )
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def fake_url_repo(self):
         class FakUrlRepository(UrlRepository):
             data: dict[PDObjectId, ShortUrlEntity] = {}
@@ -71,12 +72,12 @@ class TestUrlShorterService:
             async def update(self, instance: ShortUrlEntity) -> None:
                 if instance.get_id():
                     self.data[instance.get_id()] = instance
-                raise EntityError("Null id")
+                raise EntityError('Null id')
 
             async def delete(self, instance: ShortUrlEntity) -> None:
                 if instance.get_id():
                     self.data.pop(instance.get_id())
-                raise EntityError("Null id")
+                raise EntityError('Null id')
 
             @asynccontextmanager
             async def atomic(self):
@@ -88,44 +89,44 @@ class TestUrlShorterService:
         return FakUrlRepository()
 
     @pytest.mark.parametrize(
-        argnames="full_url,name,result,exception",
+        argnames='full_url,name,result,exception',
         argvalues=[
             (
-                "http://looooong.com/somepath",
+                'http://looooong.com/somepath',
                 None,
-                "http://short.com/32533af22a12004e6654effbb596c715d1fb1c56127e7c8973",
+                'http://short.com/32533af22a12004e6654effbb596c715d1fb1c56127e7c8973',
                 None,
             ),
             (
-                "http://looooong.com/somepath",
-                "MY-NEW-WS",
-                "http://short.com/MY-NEW-WS",
+                'http://looooong.com/somepath',
+                'MY-NEW-WS',
+                'http://short.com/MY-NEW-WS',
                 None,
             ),
-            ("http://looooong.com/somepath", "POTATO", "http://short.com/POTATO", None),
-            ("http://looooong.com/somepath", "POTATO", "http://short.com/POTATO", None),
+            ('http://looooong.com/somepath', 'POTATO', 'http://short.com/POTATO', None),
+            ('http://looooong.com/somepath', 'POTATO', 'http://short.com/POTATO', None),
             (
-                "http://looooong.com/anotherpath",
-                "POTATO",
+                'http://looooong.com/anotherpath',
+                'POTATO',
                 None,
                 ServiceError(
-                    f"Short url with this name POTATO is already exists: http://looooong.com/somepath"
+                    'Short url with this name POTATO is already exists: http://looooong.com/somepath'
                 ),
             ),
             (
-                "http://looooong.com/anotherpath",
-                "POTAT" * 10 + "0",
+                'http://looooong.com/anotherpath',
+                'POTAT' * 10 + '0',
                 None,
-                ServiceError("Get error for making entity"),
+                ServiceError('Get error for making entity'),
             ),
         ],
         ids=[
-            "empty",
-            "MY-NEW-WS",
-            "POTATO",
-            "POTATO-duplicate",
-            "POTATO-duplicate-different-url",
-            "Long-name",
+            'empty',
+            'MY-NEW-WS',
+            'POTATO',
+            'POTATO-duplicate',
+            'POTATO-duplicate-different-url',
+            'Long-name',
         ],
     )
     @pytest.mark.asyncio

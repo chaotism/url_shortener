@@ -1,16 +1,14 @@
 """Config of auth"""
-from typing import List
-from typing import Optional
+from typing import List, Optional
 
-from pydantic import BaseSettings
-from pydantic import Field
+from pydantic import BaseSettings, Field
 
-AUTH_TOKEN_KEY_NAME = "Auth-Token"
+AUTH_TOKEN_KEY_NAME = 'Auth-Token'
 
 
 class AuthSettings(BaseSettings):
     auth_token_key_name: str = AUTH_TOKEN_KEY_NAME
-    tokens: str = Field("", env="TOKENS")
+    tokens: str = Field('', env='TOKENS')
     tokens_list: Optional[List[str]] = []
 
     @classmethod
@@ -19,10 +17,10 @@ class AuthSettings(BaseSettings):
         raw_tokens = base_settings.tokens
         if not raw_tokens:
             return base_settings
-        if "," in raw_tokens:
-            tokens_list = raw_tokens.split(",")
-        elif r"\n" in raw_tokens:
-            tokens_list = raw_tokens.split(r"\n")
+        if ',' in raw_tokens:
+            tokens_list = raw_tokens.split(',')
+        elif r'\n' in raw_tokens:
+            tokens_list = raw_tokens.split(r'\n')
         else:
-            tokens_list = raw_tokens.split(" ")
+            tokens_list = raw_tokens.split(' ')
         return cls(tokens_list=tokens_list)
