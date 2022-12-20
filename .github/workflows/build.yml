@@ -22,3 +22,7 @@ jobs:
     - name: Test with pytest
       run: |
         make test
+
+    - name: Quality gate
+      run: |
+        make pre-commit-check
