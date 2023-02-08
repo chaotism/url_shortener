@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 
 from pydantic import validator
 
-from ..types import Entity
+from ..entities import Entity
 from .types import FullUrl, UrlName
 
 
