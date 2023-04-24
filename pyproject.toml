@@ -11,8 +11,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-uvicorn = "^0.20.0"
-fastapi = "^0.88.0"
+uvicorn = "^0.21.1"
+fastapi = "^0.95.1"
 pydantic = "^1.7.3"
 loguru = "^0.6.0"
 motor = "^2.3.0"
