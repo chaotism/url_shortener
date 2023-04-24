@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 from domain.goods import ProductID, ProductEntity
+from domain.entities import EncodedModel
 
 
 # Properties to receive on creation
@@ -9,5 +10,5 @@ class ProductInfoRequest(BaseModel):
 
 
 # Properties to return to client
-class ProductInfoResponse(BaseModel):
+class ProductInfoResponse(EncodedModel):
     data: list[ProductEntity]

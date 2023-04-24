@@ -104,7 +104,9 @@ class MotorProductRepository(ProductRepository):
         return [ProductEntity(**data) for data in products_data]
 
     async def find_by_category(self, category: CategoryName) -> List[ProductEntity]:
-        products_data_cursor = self.collection.find({'category': {'$in': [category]}})
+        products_data_cursor = self.collection.find(
+            {'category': {'$elemMatch': {'$in': [category]}}}
+        )
         products_data = [
             data for data in await products_data_cursor.to_list(length=self.buff_size)
         ]

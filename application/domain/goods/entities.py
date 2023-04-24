@@ -17,7 +17,7 @@ class ProductAttribute(EncodedModel):
 
 
 class ProductEntity(Entity):
-    product_id: ProductID = Field(alias='goodsId', description='Штрихкод')
+    product_id: ProductID = Field(description='Штрихкод')
     name: ProductName
     price: Decimal
 

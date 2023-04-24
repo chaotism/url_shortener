@@ -4,19 +4,18 @@ Providers base entities.
 import itertools
 import urllib.parse
 from abc import ABCMeta, abstractmethod
-from decimal import Decimal
 from typing import Optional
 
 from loguru import logger
 from pydantic import HttpUrl, parse_obj_as
+from pydantic import ValidationError
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from pydantic import ValidationError
 
 from clients.parser import BaseParser
 from common.errors import ProviderError
 from common.utils import async_wrapper, duration_measure, retry_by_exception
-from .entities import ProductEntity, ProductAttribute, ProductImage
+from .entities import ProductEntity
 from .types import ProductID, CategoryName, ProductName
 
 
@@ -72,14 +71,15 @@ class SberSuperMarketProvider(Provider):
         self._get_product_page(product_id)
         # TODO: Sometimes drives go down - maybe better decision to use BeautifulSoup with self.parser.page_source
         logger.info(f'Start getting info for product with product id: {product_id}')
-        name = self._get_product_name(product_id)
-        description = self._get_product_name(product_id)
-        price = self._get_product_price(product_id) or 0
-        images = self._get_product_images(product_id)
-        specifications = self._get_product_specifications(product_id)
-        categories = self._get_product_categories(product_id)
+        name = self._get_product_name()
+        description = self._get_product_description()
+        price = self._get_product_price()
+        images = self._get_product_images()
+        specifications = self._get_product_specifications()
+        categories = self._get_product_categories()
 
         return self._make_product_entity(
+            product_id=product_id,
             name=name,
             description=description,
             price=price,
@@ -93,9 +93,9 @@ class SberSuperMarketProvider(Provider):
         product_id: ProductID,
         name: Optional[ProductName],
         description: Optional[str],
-        price: Optional[Decimal],
-        images: list[ProductImage],
-        specifications: list[ProductAttribute],
+        price: Optional[str],
+        images: list[dict[str, str]],
+        specifications: list[dict[str, str]],
         categories: list[CategoryName],
     ) -> ProductEntity:
         try:
@@ -147,17 +147,16 @@ class SberSuperMarketProvider(Provider):
                 return data
         return []
 
-    def _get_product_name(self, product_id: ProductID) -> str:
+    def _get_product_name(self) -> ProductName:
         """
         Get product name.
         """
         for _ in range(self.RETRY_COUNT):
             if name_data := self._get_elements_data(self.product_name_path):
-                return name_data[0].text
-            # self._get_product_page(product_id)
-        return ''
+                return ProductName(name_data[0].text)
+        return ProductName('')
 
-    def _get_product_description(self, product_id: ProductID) -> str:
+    def _get_product_description(self) -> str:
         """
         Get product description.
         """
@@ -166,22 +165,19 @@ class SberSuperMarketProvider(Provider):
                 self.product_description_path
             ):
                 return description_data[0].text
-            # self._get_product_page(product_id)
         return ''
 
-    def _get_product_price(self, product_id: ProductID) -> str:
+    def _get_product_price(self) -> str:
         """
         Get product description.
         """
         for _ in range(self.RETRY_COUNT):
             if price_data := self._get_elements_data(self.product_price_path):
-                return (
-                    price_data[0].text.replace(' ', '').replace('₽', '')
-                )  # TODO: move to serializer
-            # self._get_product_page(product_id)
-        return ''
+                price = price_data[0].text.replace(' ', '').replace('₽', '')
+                return price if price else '0'
+        return '0'
 
-    def _get_product_images(self, product_id: ProductID) -> list[dict[str, str]]:
+    def _get_product_images(self) -> list[dict[str, str]]:
         """
         Get product images.
         """
@@ -193,12 +189,9 @@ class SberSuperMarketProvider(Provider):
                     if img.get_property('src')
                 ]
                 return images
-            # self._get_product_page(product_id)
         return []
 
-    def _get_product_specifications(
-        self, product_id: ProductID
-    ) -> list[dict[str, str]]:
+    def _get_product_specifications(self) -> list[dict[str, str]]:
         """
         Get product metadata.
         """
@@ -221,15 +214,16 @@ class SberSuperMarketProvider(Provider):
             return specs_data
         return []
 
-    def _get_product_categories(self, product_id: ProductID) -> list[str]:
+    def _get_product_categories(self) -> list[CategoryName]:
         """
         Get product metadata.
         """
         for _ in range(self.RETRY_COUNT):
             if categories_data := self._get_elements_data(self.product_categories_path):
                 categories = [
-                    category.text for category in categories_data if category.text
+                    CategoryName(category.text)
+                    for category in categories_data
+                    if category.text
                 ]
                 return categories
-            self._get_product_page(product_id)
         return []
