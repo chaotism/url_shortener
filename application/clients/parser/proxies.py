@@ -6,6 +6,4 @@ def get_proxy() -> str:
     return proxy
 
 
-proxies = (
-    '',
-)
+proxies = ('',)

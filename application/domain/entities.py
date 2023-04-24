@@ -14,19 +14,21 @@ class EncodedModel(BaseModel):
     class Config:
         arbitrary_types_allowed = True
         allow_population_by_field_name = True
-        json_encoders = {  # possible to remove and use jsonable_encoder from fastapi.encoders
-            UUID: str,
-            datetime: lambda dt: dt.isoformat(),
-            date: lambda d: d.isoformat(),
-            time: lambda t: t.isoformat(),
-            timedelta: lambda td: td.total_seconds(),
-            bytes: lambda o: o.decode(),
-            set: list,
-            frozenset: list,
-            GeneratorType: list,
-            Decimal: float,
-            Enum: lambda v: v.value,
-        }
+        json_encoders = (
+            {  # possible to remove and use jsonable_encoder from fastapi.encoders
+                UUID: str,
+                datetime: lambda dt: dt.isoformat(),
+                date: lambda d: d.isoformat(),
+                time: lambda t: t.isoformat(),
+                timedelta: lambda td: td.total_seconds(),
+                bytes: lambda o: o.decode(),
+                set: list,
+                frozenset: list,
+                GeneratorType: list,
+                Decimal: float,
+                Enum: lambda v: v.value,
+            }
+        )
 
 
 class Entity(EncodedModel):

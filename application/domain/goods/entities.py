@@ -1,12 +1,9 @@
-import hashlib
 from decimal import Decimal
-from typing import Optional
-from urllib.parse import urljoin
 
-from pydantic import validator, HttpUrl, Field
+from pydantic import HttpUrl, Field
 
-from ..entities import Entity, EncodedModel
 from .types import ProductID, ProductName, CategoryName
+from ..entities import Entity, EncodedModel
 
 
 class ProductImage(EncodedModel):
@@ -30,6 +27,8 @@ class ProductEntity(Entity):
 
     @property
     def is_empty(self) -> bool:
-        if not any([self.name, self.price, self.categories, self.images, self.specifications]):
+        if not any(
+            [self.name, self.price, self.categories, self.images, self.specifications]
+        ):
             return True
         return False

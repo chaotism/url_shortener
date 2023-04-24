@@ -1,7 +1,6 @@
-from typing import Optional
+from pydantic import BaseModel
 
 from domain.goods import ProductID, ProductEntity
-from pydantic import BaseModel
 
 
 # Properties to receive on creation

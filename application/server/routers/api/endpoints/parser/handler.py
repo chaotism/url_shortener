@@ -1,17 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-# from config import openapi_config
-from domain.errors import ServiceError
 from domain.goods import ProductID, ProductInfoService
 from .deps import get_product_parser_service
-from .schemas import ProductInfoRequest, ProductInfoResponse
+from .schemas import ProductInfoResponse
 
 router = APIRouter()
 
 
 @router.get('/{product_id}', response_model=ProductInfoResponse)
 async def get_product_info(
-    product_id: ProductID, product_info_service: ProductInfoService = Depends(get_product_parser_service)
+    product_id: ProductID,
+    product_info_service: ProductInfoService = Depends(get_product_parser_service),
 ) -> ProductInfoResponse:
     """
     Get a product info by product name.

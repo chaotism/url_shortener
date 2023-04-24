@@ -25,7 +25,7 @@ def async_cache(func):  # TODO: think about using
         configuration=DefaultInMemoryCacheConfiguration(
             method_timeout=timedelta(minutes=CALL_TIMEOUT),
             update_after=timedelta(minutes=REFRESH_INTERVAL),
-            expire_after=timedelta(minutes=IGNORE_UNREFRESHED_AFTER)
+            expire_after=timedelta(minutes=IGNORE_UNREFRESHED_AFTER),
         ),
-        invalidation=invalidation
+        invalidation=invalidation,
     )(func)

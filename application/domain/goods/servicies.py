@@ -1,20 +1,20 @@
 from typing import Optional
 
-from pydantic import ValidationError
 from loguru import logger
 
 from common.errors import ProviderError, NotFoundError
-
-from ..errors import EntityError, ServiceError
-from ..types import Service
 from .entities import ProductEntity
 from .provider import Provider
 from .repositories import ProductRepository
-from .types import ProductID, ProductName, CategoryName
+from .types import ProductID, CategoryName
+from ..errors import ServiceError
+from ..types import Service
 
 
 class ProductInfoService(Service):
-    def __init__(self, product_repo: ProductRepository, product_provider: Provider) -> None:
+    def __init__(
+        self, product_repo: ProductRepository, product_provider: Provider
+    ) -> None:
         self.product_repo = product_repo
         self.product_provider = product_provider
 
@@ -29,7 +29,9 @@ class ProductInfoService(Service):
         await self.product_repo.insert(product_data)
         return product_data
 
-    async def get_category_products(self, category: CategoryName) -> list[ProductEntity]:
+    async def find_category_products(
+        self, category: CategoryName
+    ) -> list[ProductEntity]:
         products = await self.product_repo.find_by_category(category)
         if not products:
             return []
@@ -38,9 +40,15 @@ class ProductInfoService(Service):
     async def get_product(self, product_id: ProductID) -> Optional[ProductEntity]:
         products = await self.product_repo.find_by_product_id(product_id)
         if not products:
-            return await self.register_provider_product_info(product_id)
+            try:
+                return await self.register_provider_product_info(product_id)
+            except NotFoundError as err:
+                logger.warning(str(err))
+                return None
         if len(products) > 1:
-            raise ServiceError(f'Find more than one product by product_id {product_id}: {products}')
+            raise ServiceError(
+                f'Find more than one product by product_id {product_id}: {products}'
+            )
         return products[0]
 
     async def remove_product(self, product_id: ProductID) -> Optional[ProductEntity]:

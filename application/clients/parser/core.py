@@ -1,26 +1,31 @@
-from typing import Optional, Generator
 from contextlib import contextmanager
-from queue import Queue
-from config.client import ParserSettings
-from loguru import logger
-from queue import Queue
 from pathlib import Path
+from queue import Queue
+from typing import Optional, Generator
+
+import undetected_chromedriver as uc
+from loguru import logger
 from pydantic import HttpUrl
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-import undetected_chromedriver as uc
 
-from common.constants import BASE_PATH
 from clients.parser.proxies import get_proxy
 from clients.parser.useragent import get_useragent
-from poetry.core.constraints.version import Version  # TODO: check chrome version
-
+from common.constants import BASE_PATH
 from common.errors import ProviderError
+from config.client import ParserSettings
 
 
-def get_web_driver(headless: bool = True, proxy: Optional[str] = None, useragent: Optional[str] = None) -> uc.Chrome:
+DEFAULT_TIME_TO_WAIT = 3
+
+
+def get_web_driver(
+    headless: bool = True, proxy: Optional[str] = None, useragent: Optional[str] = None
+) -> uc.Chrome:
     options = uc.ChromeOptions()
-    options.user_data_dir = Path(BASE_PATH, 'var', 'chrome_userdata')  # TODO: generate user data
+    options.user_data_dir = Path(
+        BASE_PATH, 'var', 'chrome_userdata'
+    )  # TODO: generate user data
     if headless:
         options.add_argument('--headless')
     if proxy:
@@ -28,17 +33,22 @@ def get_web_driver(headless: bool = True, proxy: Optional[str] = None, useragent
     if useragent:
         options.add_argument(f'--user-agent={useragent}')
 
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--dns-prefetch-disable')
+    options.add_argument('--disable-gpu')
+
     chrome = uc.Chrome(options=options)
     chrome.maximize_window()
+    chrome.implicitly_wait(time_to_wait=DEFAULT_TIME_TO_WAIT)
+    chrome.set_page_load_timeout(time_to_wait=DEFAULT_TIME_TO_WAIT)
     return chrome
 
 
 @contextmanager
 def get_web_drivers_pool(  # FIXME: crashed in one thread calling
-    count: int,
-    headless=True,
-    proxy=False,
-    random_useragent=False
+    count: int, headless=True, proxy=False, random_useragent=False
 ) -> Generator[Queue[uc.Chrome], None, None]:
     driver_queue = Queue(maxsize=count)  # TODO: migrate to async queue
     try:
@@ -64,9 +74,7 @@ class BaseParser:
 
     @property
     def is_inited(self):
-        return (
-            self.config is not None and self.client is not None
-        )
+        return self.config is not None and self.client is not None
 
     def init(self, config: ParserSettings):
         if self.is_inited:
@@ -77,7 +85,7 @@ class BaseParser:
         client = get_web_driver(
             headless=config.has_headless,
             useragent=get_useragent() if config.has_random_useragent else None,
-            proxy=get_proxy() if config.has_proxies else None
+            proxy=get_proxy() if config.has_proxies else None,
         )
         self.client = client
         logger.info('Chrome client ready')
@@ -93,15 +101,14 @@ class BaseParser:
 
     def get_page(self, url: HttpUrl) -> uc.Chrome:
         if not self.is_inited:
-            raise ProviderError('MongoMotorAdapter is not inited')
+            raise ProviderError(f'{self.__class__.__name__} is not inited')
         logger.debug(f'Get page {url}')
         self.client.get(url)
-        self.client.implicitly_wait(time_to_wait=0.3)  # TODD: remove it
         return self.client
 
     def get_elements(self, by: By, name: str) -> list[WebElement]:
         if not self.is_inited:
-            raise ProviderError('MongoMotorAdapter is not inited')
+            raise ProviderError(f'{self.__class__.__name__} is not inited')
         logger.debug(f'Get elements by {by} with value {name}')
         return self.client.find_elements(by, name)
 

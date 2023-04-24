@@ -1,5 +1,4 @@
 """Config of DBS"""
-from typing import Optional
 
 from pydantic import BaseSettings, Field, HttpUrl
 

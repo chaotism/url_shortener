@@ -4,7 +4,11 @@ from config import openapi_config
 from domain.errors import ServiceError
 from domain.short_url import UrlName, UrlShorterService
 from .deps import get_url_shorter_service
-from .schemas import ShortUrlCreateRequest, StoredFullUrlResponse, StoredShortUrlResponse
+from .schemas import (
+    ShortUrlCreateRequest,
+    StoredFullUrlResponse,
+    StoredShortUrlResponse,
+)
 
 router = APIRouter()
 

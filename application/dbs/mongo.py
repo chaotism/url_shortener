@@ -20,12 +20,12 @@ class MongoMotorAdapter:
 
     async def get_db(self):
         if not self.is_inited:
-            raise DatabaseError('MongoMotorAdapter is not inited')
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         return self.db
 
     async def get_client(self):
         if not self.is_inited:
-            raise DatabaseError('MongoMotorAdapter is not inited')
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         return self.client
 
     async def init(self, config: MongodbSettings):
@@ -40,7 +40,7 @@ class MongoMotorAdapter:
 
     async def close_connections(self):
         if not self.is_inited:
-            logger.warning('MongoMotorAdapter is not inited')
+            logger.warning(f'{self.__class__.__name__} is not inited')
             return
         logger.info('Start closing connection...')
         self.client.close()
@@ -48,7 +48,7 @@ class MongoMotorAdapter:
 
     async def auth_mongo(self):
         if not self.is_inited:
-            raise DatabaseError('MongoMotorAdapter is not inited')
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         if self.config.username is not None:
             logger.info('Find mongo username, try to get authentication')
             await self.db.authenticate(self.config.username, self.config.password)

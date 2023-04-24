@@ -1,9 +1,5 @@
 from typing import NewType
 
-from pydantic import AnyHttpUrl
-
-from ..types import PDObjectId
-
 ProductID = NewType('ProductID', str)
 
 

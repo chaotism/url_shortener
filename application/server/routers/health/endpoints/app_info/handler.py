@@ -8,7 +8,9 @@ from .schemas import Msg
 router = APIRouter()
 
 
-@router.post('/system-status/', response_model=Msg, status_code=200)
+@router.post(
+    '/system-status/', response_model=Msg, status_code=200
+)  # TODO: add checking chrome driver
 def check_app_status() -> Any:
     """
     Check app status.

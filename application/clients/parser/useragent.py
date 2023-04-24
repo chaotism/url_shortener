@@ -464,8 +464,7 @@ user_agents = (
     'Firefox/38.0',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/43.0.2357.124 Safari/537.36',
-    'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; '
-    'Touch)',
+    'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; Touch)',
     'Mozilla/5.0 (Linux; Android 5.0.2; SM-T800 Build/LRX22G) AppleWebKit/537.36 '
     '(KHTML, like Gecko) Chrome/45.0.2454.84 Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -568,8 +567,7 @@ user_agents = (
     'Center PC 6.0; .NET4.0C; .NET4.0E; InfoPath.3; GWX:QUALIFIED)',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/44.0.2403.107 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MDDCJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MDDCJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/41.0.2272.104 AOL/9.8 AOLBuild/4346.13.US Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -629,8 +627,7 @@ user_agents = (
     'like Gecko) GSA/8.0.57838 Mobile/12F69 Safari/600.1.4',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_1 like Mac OS X) AppleWebKit/537.51.2 '
     '(KHTML, like Gecko) Version/7.0 Mobile/11D201 Safari/9537.53',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; GIL 3.5; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; GIL 3.5; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:41.0) Gecko/20100101 '
     'Firefox/41.0',
     'Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; LG-V410/V41010d '
@@ -640,8 +637,7 @@ user_agents = (
     'like Gecko) Version/7.0.3 Safari/537.75.14',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 8_1 like Mac OS X) AppleWebKit/600.1.4 '
     '(KHTML, like Gecko) Version/8.0 Mobile/12B411 Safari/600.1.4',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MATBJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MATBJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/43.0.2357.134 Safari/537.36',
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) '
@@ -660,8 +656,7 @@ user_agents = (
     'like Gecko) Version/6.0 Mobile/10B146 Safari/8536.25',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, '
     'like Gecko) Chrome/44.0.2403.130 Safari/537.36',
-    'Mozilla/5.0 (MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (MSIE 9.0; Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/37.0.2062.124 Safari/537.36',
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -861,8 +856,7 @@ user_agents = (
     'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG-SM-N910A Build/LRX22C) '
     'AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 '
     'Chrome/34.0.1847.76 Mobile Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; ASU2JS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; ASU2JS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0',
     'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0',
     'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20120101 Firefox/29.0',
@@ -965,8 +959,7 @@ user_agents = (
     'rv:11.0) like Gecko',
     'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/44.0.2403.125 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MALNJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MALNJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Linux; Android 4.4.2; SM-T900 Build/KOT49H) AppleWebKit/537.36 '
     '(KHTML, like Gecko) Chrome/45.0.2454.84 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, '
@@ -1138,8 +1131,7 @@ user_agents = (
     'like Gecko) Chrome/44.0.2403.125 Safari/537.36',
     'Mozilla/5.0 (Linux; Android 5.0; SM-G900V Build/LRX21T) AppleWebKit/537.36 '
     '(KHTML, like Gecko) Chrome/44.0.2403.133 Mobile Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MAGWJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MAGWJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/38.0.2125.122 Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.3; Win64; x64; Trident/7.0; Touch; MALNJS; '
@@ -1655,8 +1647,7 @@ user_agents = (
     'Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like '
     'Gecko) Chrome/44.0.2403.155 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; FunWebProducts; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; FunWebProducts; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like '
     'Gecko) Chrome/47.0.2505.0 Safari/537.36',
     'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; MALNJS; rv:11.0) '
@@ -1689,8 +1680,7 @@ user_agents = (
     'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0',
     'Mozilla/5.0 (compatible; Windows NT 6.1; Catchpoint) AppleWebKit/537.36 '
     '(KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 '
-    'Firefox/29.0',
+    'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 ' 'Firefox/29.0',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 '
     'Firefox/32.0',
     'Mozilla/5.0 (Windows NT 6.0; rv:38.0) Gecko/20100101 Firefox/38.0',
@@ -1708,8 +1698,7 @@ user_agents = (
     'like Gecko) Chrome/41.0.2227.1 Safari/537.36',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_3 like Mac OS X) AppleWebKit/536.26 '
     '(KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MAARJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MAARJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:36.0) Gecko/20100101 '
     'Firefox/36.0',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, '
@@ -1738,8 +1727,7 @@ user_agents = (
     'Chrome/42.0.2311.135 BIDUBrowser/7.6 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, '
     'like Gecko) Chrome/42.0.2311.135 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MASMJS; rv:11.0) like '
-    'Gecko',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MASMJS; rv:11.0) like ' 'Gecko',
     'Mozilla/5.0 (Windows NT 10.0; Trident/7.0; Touch; rv:11.0) like Gecko',
     'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; WOW64; Trident/4.0; '
     'SLCC2; .NET CLR 2.0.50727; .NET4.0C; .NET4.0E; 360SE)',
@@ -1921,5 +1909,5 @@ user_agents = (
     'AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 '
     'Chrome/34.0.1847.76 Mobile Safari/537.36',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 '
-    '(KHTML, like Gecko) GSA/7.0.55539 Mobile/12H143 Safari/600.1.4'
+    '(KHTML, like Gecko) GSA/7.0.55539 Mobile/12H143 Safari/600.1.4',
 )

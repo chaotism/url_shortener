@@ -22,7 +22,9 @@ class ProductRepository(Repository):
         pass
 
     @abstractmethod
-    async def get_by_id(self, instance_id: PDObjectId) -> ProductEntity:  # TODO: remove it
+    async def get_by_id(
+        self, instance_id: PDObjectId
+    ) -> ProductEntity:  # TODO: remove it
         pass
 
     @abstractmethod
@@ -68,7 +70,9 @@ class MotorProductRepository(ProductRepository):
 
     def _create_indexes(self):  # TODO: move to tasks
         logger.info('Creating indexes')
-        self.collection.create_index('product_id', unique=True, sparse=True, background=True)
+        self.collection.create_index(
+            'product_id', unique=True, sparse=True, background=True
+        )
 
     async def get_count(self) -> int:
         return self.collection.count_documents({})
@@ -100,7 +104,7 @@ class MotorProductRepository(ProductRepository):
         return [ProductEntity(**data) for data in products_data]
 
     async def find_by_category(self, category: CategoryName) -> List[ProductEntity]:
-        products_data_cursor = self.collection.find({'category': {"$in": [category]}})
+        products_data_cursor = self.collection.find({'category': {'$in': [category]}})
         products_data = [
             data for data in await products_data_cursor.to_list(length=self.buff_size)
         ]
