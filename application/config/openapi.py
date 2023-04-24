@@ -4,7 +4,7 @@ from pydantic import AnyHttpUrl, BaseSettings
 OPENAPI_API_NAME = 'The best API ever'
 OPENAPI_API_VERSION = '0.0.1 beta'
 OPENAPI_API_DESCRIPTION = 'API for humans'
-OPENAPI_SERVER_NAME = 'http://short.com'
+OPENAPI_SERVER_NAME = 'http://short.com'  # TODO: rename
 
 
 class OpenAPISettings(BaseSettings):

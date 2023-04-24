@@ -52,7 +52,7 @@ class UrlShorterService(Service):
             raise ServiceError(f'Find more than one url by name {name}: {urls}')
         return urls[0]
 
-    async def remove_url(self, name: UrlName) -> Optional[ShortUrlEntity]:
+    async def remove_url(self, name: UrlName):
         url = await self.get_url(name)
         if not url:
             return None

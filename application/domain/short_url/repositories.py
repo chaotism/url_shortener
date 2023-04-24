@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from contextlib import asynccontextmanager
 from typing import List
 
+from fastapi.encoders import jsonable_encoder
 from loguru import logger
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
@@ -82,7 +83,7 @@ class MotorUrlRepository(UrlRepository):
         return [ShortUrlEntity(**data) for data in urls_data]
 
     async def insert(self, instance: ShortUrlEntity) -> UrlID:
-        data = instance.dict(by_alias=True)
+        data = jsonable_encoder(instance, by_alias=True)
         data.pop('_id')
         result = await self.collection.insert_one(data)
         return result.inserted_id
@@ -91,7 +92,7 @@ class MotorUrlRepository(UrlRepository):
         instance_id = instance.get_id()
         if not instance_id:
             raise EntityError('Null id')
-        data = instance.dict(by_alias=True)
+        data = jsonable_encoder(instance, by_alias=True)
         data.pop('_id')
         await self.collection.update_one({'_id': instance_id}, {'$set': data})
 

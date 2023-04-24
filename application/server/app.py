@@ -4,8 +4,9 @@ will run your application with this file.
 """
 import sentry_sdk
 import uvicorn
-from config import application_config, mongodb_config, openapi_config, sentry_config
+from config import application_config, mongodb_config, parser_config, openapi_config, sentry_config
 from dbs import mongo_adapter
+from clients import parser_client, get_web_driver
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from loguru import logger
@@ -49,11 +50,15 @@ async def startup():
     await mongo_adapter.init(mongodb_config)
     await mongo_adapter.auth_mongo()
 
+    parser_client.init(parser_config)  # TODO: miagrate to async
+
+
 
 @app.on_event('shutdown')
 async def shutdown():
     await mongo_adapter.close_connections()
 
+    parser_client.close_client()  # TODO: miagrate to async
 
 @app.get('/')
 async def redirect_to_docs():
