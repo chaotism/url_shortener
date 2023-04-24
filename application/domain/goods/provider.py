@@ -4,6 +4,8 @@ Providers base entities.
 import itertools
 import urllib.parse
 from abc import ABCMeta, abstractmethod
+from decimal import Decimal
+from typing import Optional
 
 from loguru import logger
 from pydantic import HttpUrl, parse_obj_as
@@ -14,8 +16,8 @@ from pydantic import ValidationError
 from clients.parser import BaseParser
 from common.errors import ProviderError
 from common.utils import async_wrapper, duration_measure, retry_by_exception
-from .entities import ProductEntity
-from .types import ProductID
+from .entities import ProductEntity, ProductAttribute, ProductImage
+from .types import ProductID, CategoryName, ProductName
 
 
 class Provider(metaclass=ABCMeta):
@@ -31,6 +33,7 @@ class Provider(metaclass=ABCMeta):
 
 
 class SberSuperMarketProvider(Provider):
+
     """
     Provider interface class.
     """
@@ -76,6 +79,25 @@ class SberSuperMarketProvider(Provider):
         specifications = self._get_product_specifications(product_id)
         categories = self._get_product_categories(product_id)
 
+        return self._make_product_entity(
+            name=name,
+            description=description,
+            price=price,
+            images=images,
+            specifications=specifications,
+            categories=categories,
+        )
+
+    @staticmethod
+    def _make_product_entity(
+        product_id: ProductID,
+        name: Optional[ProductName],
+        description: Optional[str],
+        price: Optional[Decimal],
+        images: list[ProductImage],
+        specifications: list[ProductAttribute],
+        categories: list[CategoryName],
+    ) -> ProductEntity:
         try:
             product = ProductEntity(
                 product_id=product_id,
@@ -88,7 +110,7 @@ class SberSuperMarketProvider(Provider):
             )
         except ValidationError as err:
             logger.warning(
-                """Get validation exception for ProductEntity, with data: {'
+                f"""Get exception for ProductEntity {err}, with data: {
                         dict(
                             product_id=product_id,
                             name=name,

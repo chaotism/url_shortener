@@ -10,6 +10,7 @@ from loguru import logger
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from clients import parser_client
+from common.utils import async_wrapper
 from config import (
     application_config,
     mongodb_config,
@@ -56,15 +57,13 @@ logger.success('Successfully initialized!')
 async def startup():
     await mongo_adapter.init(mongodb_config)
     await mongo_adapter.auth_mongo()
-
-    parser_client.init(parser_config)  # TODO: miagrate to async
+    await async_wrapper(parser_client.init)(parser_config)
 
 
 @app.on_event('shutdown')
 async def shutdown():
     await mongo_adapter.close_connections()
-
-    parser_client.close_client()  # TODO: miagrate to async
+    await async_wrapper(parser_client.close_client)()
 
 
 @app.get('/')
