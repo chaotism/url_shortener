@@ -28,21 +28,22 @@ def get_web_driver(
     )  # TODO: generate user data
     if headless:
         options.add_argument('--headless')
-    if proxy:
-        options.add_argument(f'--proxy-server={proxy}')
-    if useragent:
-        options.add_argument(f'--user-agent={useragent}')
+    # TODO:  all commented arguments would break chrome driver or make it detectable
+    # if proxy:
+    #     options.add_argument(f'--proxy-server={proxy}')
+    # if useragent:
+    #     options.add_argument(f'--user-agent={useragent}')
 
-    options.add_argument('--window-size=1920,1080')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--dns-prefetch-disable')
-    options.add_argument('--disable-gpu')
+    # options.add_argument('--window-size=1920,1080')
+    # options.add_argument('--no-sandbox')
+    # options.add_argument('--disable-extensions')
+    # options.add_argument('--dns-prefetch-disable')
+    # options.add_argument('--disable-gpu')
 
     chrome = uc.Chrome(options=options)
     chrome.maximize_window()
     chrome.implicitly_wait(time_to_wait=DEFAULT_TIME_TO_WAIT)
-    chrome.set_page_load_timeout(time_to_wait=DEFAULT_TIME_TO_WAIT)
+    # chrome.set_page_load_timeout(time_to_wait=DEFAULT_TIME_TO_WAIT)
     return chrome
 
 
@@ -109,6 +110,9 @@ class BaseParser:
     def get_elements(self, by: By, name: str) -> list[WebElement]:
         if not self.is_inited:
             raise ProviderError(f'{self.__class__.__name__} is not inited')
+        logger.debug(
+            f'Current page is {self.client.current_url} with source  {self.client.page_source}'
+        )
         logger.debug(f'Get elements by {by} with value {name}')
         return self.client.find_elements(by, name)
 
