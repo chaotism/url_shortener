@@ -2,7 +2,7 @@ import hashlib
 from typing import Optional
 from urllib.parse import urljoin
 
-from pydantic import validator
+from pydantic import validator, Field
 
 from ..entities import Entity
 from .types import FullUrl, UrlName
@@ -10,7 +10,7 @@ from .types import FullUrl, UrlName
 
 class ShortUrlEntity(Entity):
     full_url: FullUrl
-    name: Optional[UrlName]
+    name: Optional[UrlName] = Field(None, min_length=3, description='Name')
 
     def generate_short_url(self, host: str):
         return urljoin(host, self.name)

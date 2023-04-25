@@ -6,6 +6,10 @@ class EntityError(ApplicationError):
     pass
 
 
+class DatabaseError(ApplicationError):
+    pass
+
+
 class RepositoryError(ApplicationError):
     pass
 

@@ -10,13 +10,13 @@ AUTH_TOKEN_KEY = APIKeyHeader(
 )  # set false for debug
 
 
-def EXISTS_AUTH_TOKEN_KEYS():
+def get_exists_auth_token_keys():
     return auth_config.tokens_list
 
 
 async def verify_auth_token(
     auth_token: str = Depends(AUTH_TOKEN_KEY),
-    valid_tokens: List[str] = Depends(EXISTS_AUTH_TOKEN_KEYS),
+    valid_tokens: List[str] = Depends(get_exists_auth_token_keys),
 ) -> str:
     if valid_tokens:
         if (auth_token is None) or (auth_token not in valid_tokens):

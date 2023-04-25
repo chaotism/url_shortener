@@ -5,15 +5,15 @@ from pydantic import BaseModel
 
 
 # Properties to receive on creation
-class ShortUrlCreate(BaseModel):
+class ShortUrlCreateRequest(BaseModel):
     full_url: FullUrl
     name: Optional[UrlName]
 
 
 # Properties to return to client
-class StoredShortUrl(BaseModel):
+class StoredShortUrlResponse(BaseModel):
     short_url: ShortUrl
 
 
-class StoredFullUrl(BaseModel):
+class StoredFullUrlResponse(BaseModel):
     full_url: FullUrl

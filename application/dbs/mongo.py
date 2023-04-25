@@ -1,9 +1,11 @@
 from typing import Optional
 
-from config.db import MongodbSettings
 from loguru import logger
 from motor import motor_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+
+from config.db import MongodbSettings
+from domain.errors import DatabaseError
 
 
 class MongoMotorAdapter:
@@ -25,29 +27,27 @@ class MongoMotorAdapter:
 
     async def get_db(self):
         if not self.is_inited:
-            logger.warning('MongoMotorAdapter is not inited')
-            return
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         return self.db
 
     async def get_client(self):
         if not self.is_inited:
-            logger.warning('MongoMotorAdapter is not inited')
-            return
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         return self.client
 
-    async def init(self, mongo_config: MongodbSettings) -> AsyncIOMotorClient:
+    async def init(self, config: MongodbSettings):
         if self.is_inited:
             logger.info('Already inited')
             return
         logger.info('Start opening connection.....')
-        self.config = mongo_config
+        self.config = config
         self.client = motor_asyncio.AsyncIOMotorClient(self.config.uri)
         self.db = self.client[self.config.db]
         logger.info('Connection open')
 
     async def close_connections(self):
         if not self.is_inited:
-            logger.warning('MongoMotorAdapter is not inited')
+            logger.warning(f'{self.__class__.__name__} is not inited')
             return
         logger.info('Start closing connection...')
         self.client.close()
@@ -55,7 +55,7 @@ class MongoMotorAdapter:
 
     async def auth_mongo(self):
         if not self.is_inited:
-            raise UnboundLocalError('MongoMotorAdapter is not inited')
+            raise DatabaseError(f'{self.__class__.__name__} is not inited')
         if self.config.username is not None:
             logger.info('Find mongo username, try to get authentication')
             await self.db.authenticate(self.config.username, self.config.password)
