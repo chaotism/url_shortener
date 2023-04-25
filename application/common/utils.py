@@ -2,16 +2,14 @@
 Collection for common help function in project.
 """
 import asyncio
-import logging
-import time
-from functools import partial
 import contextvars
-from functools import wraps
+import time
+from functools import partial, wraps
 from itertools import count
 from typing import Callable, Coroutine, List
 
 from aiomisc import asyncretry, cancel_tasks
-
+from loguru import logger
 
 from common.constants import INFINITY
 
@@ -42,10 +40,8 @@ def duration_measure(func: Callable) -> Callable:
     def on_done(fut):
         start_time = start_time_var.get('start_time')
         end_time = time.time()
-        logging.info(
-            'Completed %s. Elapsed time: %s seconds',
-            func.__name__,
-            end_time - start_time,
+        logger.info(
+            f'Completed {func.__name__}. Elapsed time: {end_time - start_time} seconds'
         )
 
     @wraps(func)
@@ -54,10 +50,8 @@ def duration_measure(func: Callable) -> Callable:
         result = func(*args, **kwargs)
         if not asyncio.iscoroutinefunction(func):
             end_time = time.time()
-            logging.info(
-                'Completed %s. Elapsed time: %s seconds',
-                func.__name__,
-                end_time - start_time,
+            logger.info(
+                f'Completed {func.__name__}. Elapsed time: {end_time - start_time} seconds'
             )
             return result
         start_time_var.set(start_time)
@@ -83,11 +77,8 @@ def retry_by_exception(max_tries=3, exceptions=(Exception,), **kwargs):
             try:
                 return await func(*args, **kwargs)
             except Exception as ex:
-                logging.error(
-                    'Function %s raised exception %s(%s). Restarting',
-                    func.__name__,
-                    ex.__class__.__name__,
-                    ex,
+                logger.error(
+                    f'Function {func.__name__} raised exception {ex.__class__.__name__}({ex}). Restarting'
                 )
                 raise
 
@@ -108,10 +99,8 @@ async def gather_tasks(
         raise TimeoutError(pending_tasks)
     for idx, task in enumerate(finished_tasks):
         if task.exception():
-            logging.error(
-                'Task %s raised exception %s during execution',
-                tasks[idx],
-                task.exception(),
+            logger.error(
+                f'Task {tasks[idx]} raised exception {task.exception()} during execution'
             )
             continue
         success_results.append(task.result())
@@ -130,7 +119,7 @@ def cancel_all_tasks_wrapper(
         await cancel_tasks(
             [t for t in asyncio.all_tasks() if not (t.done() or asyncio.current_task())]
         )
-        logging.debug('Current tasks already stopped')
+        logger.debug('Current tasks already stopped')
         if asyncio.iscoroutinefunction(func):
             return await func(*args, **kwargs)
         return func(*args, **kwargs)

@@ -14,7 +14,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from clients.parser import BaseParser
 from common.errors import ProviderError
-from common.utils import async_wrapper, duration_measure, retry_by_exception
+from common.utils import async_wrapper, retry_by_exception
 from .entities import ProductEntity
 from .types import ProductID, CategoryName, ProductName
 
@@ -32,12 +32,9 @@ class Provider(metaclass=ABCMeta):
 
 
 class SberSuperMarketProvider(Provider):
-
     """
     Provider interface class.
     """
-
-    RETRY_COUNT = 3
 
     product_name_path = {By.CLASS_NAME: 'pdp-header__title', By.XPATH: '//header/h1'}
     product_description_path = {By.CLASS_NAME: 'product-description'}
@@ -54,7 +51,6 @@ class SberSuperMarketProvider(Provider):
         self.parser = parser
         self.base_url = base_url
 
-    @duration_measure
     async def get_product(self, product_id: ProductID) -> ProductEntity:
         """
         Get product entity by product id.
@@ -124,7 +120,7 @@ class SberSuperMarketProvider(Provider):
                 """
             )
             raise ProviderError from err
-        logger.info(
+        logger.debug(
             f'Got getting info for product with product id {product_id}: \n {product.json()}'
         )
         if product.is_empty:
@@ -151,79 +147,69 @@ class SberSuperMarketProvider(Provider):
         """
         Get product name.
         """
-        for _ in range(self.RETRY_COUNT):
-            if name_data := self._get_elements_data(self.product_name_path):
-                return ProductName(name_data[0].text)
+        if name_data := self._get_elements_data(self.product_name_path):
+            return ProductName(name_data[0].text)
         return ProductName('')
 
     def _get_product_description(self) -> str:
         """
         Get product description.
         """
-        for _ in range(self.RETRY_COUNT):
-            if description_data := self._get_elements_data(
-                self.product_description_path
-            ):
-                return description_data[0].text
+        if description_data := self._get_elements_data(self.product_description_path):
+            return description_data[0].text
         return ''
 
     def _get_product_price(self) -> str:
         """
         Get product description.
         """
-        for _ in range(self.RETRY_COUNT):
-            if price_data := self._get_elements_data(self.product_price_path):
-                price = price_data[0].text.replace(' ', '').replace('₽', '')
-                return price if price else '0'
+        if price_data := self._get_elements_data(self.product_price_path):
+            price = price_data[0].text.replace(' ', '').replace('₽', '')
+            return price if price else '0'
         return '0'
 
     def _get_product_images(self) -> list[dict[str, str]]:
         """
         Get product images.
         """
-        for _ in range(self.RETRY_COUNT):
-            if images_data := self._get_elements_data(self.product_images_path):
-                images = [
-                    {'name': img.get_property('alt'), 'url': img.get_property('src')}
-                    for img in images_data
-                    if img.get_property('src')
-                ]
-                return images
+        if images_data := self._get_elements_data(self.product_images_path):
+            images = [
+                {'name': img.get_property('alt'), 'url': img.get_property('src')}
+                for img in images_data
+                if img.get_property('src')
+            ]
+            return images
         return []
 
     def _get_product_specifications(self) -> list[dict[str, str]]:
         """
         Get product metadata.
         """
-        for _ in range(self.RETRY_COUNT):
-            if not (
-                specs_names := self._get_elements_data(self.product_specs_names_path)
-            ):
-                continue
-            if not (
-                specs_values := self._get_elements_data(self.product_specs_values_path)
-            ):
-                continue
-            names = [key.text for key in specs_names]
-            values = [key.text for key in specs_values]
-            specs_data = [
-                {'name': key, 'value': value}
-                for key, value in itertools.zip_longest(names, values, fillvalue='')
-                if key
-            ]
-            return specs_data
-        return []
+        if not (specs_names := self._get_elements_data(self.product_specs_names_path)):
+            return []
+        if not (
+            specs_values := self._get_elements_data(self.product_specs_values_path)
+        ):
+            return []
+
+        names = [key.text for key in specs_names]
+        values = [key.text for key in specs_values]
+        specs_data = [
+            {'name': key, 'value': value}
+            for key, value in itertools.zip_longest(names, values, fillvalue='')
+            if key
+        ]
+        return specs_data
 
     def _get_product_categories(self) -> list[CategoryName]:
         """
         Get product metadata.
         """
-        for _ in range(self.RETRY_COUNT):
-            if categories_data := self._get_elements_data(self.product_categories_path):
-                categories = [
-                    CategoryName(category.text)
-                    for category in categories_data
-                    if category.text
-                ]
-                return categories
+        if categories_data := self._get_elements_data(self.product_categories_path):
+            categories = [
+                CategoryName(category.text)
+                for category in categories_data
+                if category.text
+            ]
+            return categories
         return []

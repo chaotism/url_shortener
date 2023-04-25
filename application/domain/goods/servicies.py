@@ -3,6 +3,7 @@ from typing import Optional
 from loguru import logger
 
 from common.errors import ProviderError, NotFoundError
+from common.utils import duration_measure
 from .entities import ProductEntity
 from .provider import Provider
 from .repositories import ProductRepository
@@ -38,6 +39,7 @@ class ProductInfoService(Service):
             return []
         return products
 
+    @duration_measure
     async def get_product(self, product_id: ProductID) -> Optional[ProductEntity]:
         products = await self.product_repo.find_by_product_id(product_id)
         logger.debug(f'Get {products} by key {product_id}')

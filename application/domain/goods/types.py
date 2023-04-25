@@ -4,7 +4,7 @@ ProductID = NewType('ProductID', str)
 
 
 class ProductName(str):
-    max_length = 50
+    max_length = 512
 
     @classmethod
     def __get_validators__(cls):
@@ -25,7 +25,7 @@ class ProductName(str):
 
 
 class CategoryName(str):  # TODO: copypaste
-    max_length = 50
+    max_length = 512
 
     @classmethod
     def __get_validators__(cls):
