@@ -1,7 +1,6 @@
 from config import openapi_config
 from fastapi import APIRouter
 
-from dbs import mongo_adapter
 from .schemas import Msg
 
 router = APIRouter()
@@ -16,7 +15,6 @@ async def check_app_status() -> Msg:
     # Check application
     """
 
-    await mongo_adapter.get_db()
     return Msg(**{'msg': 'Ok'})
 
 
