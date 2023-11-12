@@ -1,6 +1,6 @@
-from config import openapi_config
 from fastapi import APIRouter
 
+from config import openapi_config
 from .schemas import Msg
 
 router = APIRouter()

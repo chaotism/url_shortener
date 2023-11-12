@@ -1,8 +1,9 @@
 from urllib.parse import urljoin
 
-from server.app import app
 from httpx import URL
 from starlette.testclient import TestClient
+
+from web.app import app
 
 
 class TestSystemStatus:

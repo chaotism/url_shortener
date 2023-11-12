@@ -9,7 +9,7 @@ services:
     build:
       context: ../
       dockerfile: ./docker/application/Dockerfile
-    command: poetry run python3 main_web.py
+    command: poetry run python3 web_entrypoint.py
     environment:
       MONGO_URI: "mongodb://mongodb:27017"
       API_HOST: "0.0.0.0"
