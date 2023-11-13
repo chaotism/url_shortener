@@ -65,7 +65,6 @@ coverage.xml
 
 .idea/
 .vscode/
-poetry.lock
 
 
 # Django stuff:

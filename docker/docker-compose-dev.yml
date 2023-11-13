@@ -2,16 +2,14 @@ version: "3"
 services:
   mongodb:
     image: "mongo:4.4.2-bionic"
-#    command: mongod --logpath=/dev/null
     ports:
       - "9999:27017"
-#    volumes:
-#      - "../var/mongo-data/:/data/db"
+
   api:
     build:
       context: ../
       dockerfile: ./docker/application/Dockerfile
-    command: poetry run python3 main_web.py
+    command: poetry run python3 web_entrypoint.py
     environment:
       MONGO_URI: "mongodb://mongodb:27017"
       API_HOST: "0.0.0.0"

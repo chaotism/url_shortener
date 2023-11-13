@@ -15,7 +15,7 @@ check-pre-commit-hooks:
 	poetry run pre-commit install && poetry run pre-commit run --all-files
 
 run:
-	cd application && uvicorn server.app:app --host 0.0.0.0 --port=8888
+	cd application && uvicorn web.app:app --host 0.0.0.0 --port=8888
 
 test:
 	cd $(APP_PATH) && poetry run python -m pytest --cov=. --cov-report=xml --cov-append --no-cov-on-fail --verbose --color=yes $(TEST_PATH)
