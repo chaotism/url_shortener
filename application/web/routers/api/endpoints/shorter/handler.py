@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from config import openapi_config
 from domain.errors import ServiceError
 from domain.short_url import UrlName, UrlShorterService
+from web.utils import async_lru_cache_decorator, duration_measure, retry_by_exception
 from .deps import get_url_shorter_service
 from .schemas import (
     ShortUrlCreateRequest,
@@ -14,6 +15,8 @@ router = APIRouter()
 
 
 @router.get('/{url_name}', response_model=StoredFullUrlResponse)
+@duration_measure
+@async_lru_cache_decorator
 async def get_url(
     url_name: UrlName, url_service: UrlShorterService = Depends(get_url_shorter_service)
 ) -> StoredFullUrlResponse:  # TODO: migrate to redirect
@@ -27,6 +30,7 @@ async def get_url(
 
 
 @router.post('/', response_model=StoredShortUrlResponse)
+@retry_by_exception()
 async def create_url(
     *,
     url_service: UrlShorterService = Depends(get_url_shorter_service),
