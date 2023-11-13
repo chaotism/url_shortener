@@ -25,4 +25,4 @@ WORKDIR $APP_PATH
 
 
 # Run FastApi
-CMD [ "sh", "-c", "uvicorn ${APP_PATH}/server/app:app --host=0.0.0.0 --port=${WEB_PORT}"]
+CMD [ "sh", "-c", "uvicorn ${APP_PATH}/web/app:app --host=0.0.0.0 --port=${WEB_PORT}"]
