@@ -16,7 +16,7 @@ from .utils import (
 
 
 async def server_check_middleware(request: Request, call_next):
-    if not is_server_working():
+    if not is_server_working(request.app):
         raise HTTPException(status_code=503)
     response = await call_next(request)
     return response

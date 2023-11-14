@@ -16,7 +16,7 @@ class CustomSignalHandlerServer(uvicorn.Server):
     shutdown_delay = GRACEFULLY_SHUTDOWN_TIMEOUT
 
     def handle_exit(self, sig: int, frame: Optional[FrameType]) -> None:
-        set_server_is_not_working()
+        set_server_is_not_working(self.config.app)
         with threading.RLock():
             timer = threading.Timer(
                 self.shutdown_delay,
