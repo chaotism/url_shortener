@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter
 
 from config import openapi_config
@@ -14,6 +16,7 @@ async def check_app_status() -> Msg:
     # Check DB  # TODO: Not Implemented
     # Check application
     """
+    await asyncio.sleep(10)
 
     return Msg(**{'msg': 'Ok'})
 

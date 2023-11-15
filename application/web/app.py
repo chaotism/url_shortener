@@ -25,13 +25,15 @@ from web.core.middleware import (
     request_context_log_middleware,
     request_logging_middleware,
     server_check_middleware,
+    count_active_request_middleware,
+    init_server_state,
     set_server_is_working,
     set_server_is_not_working,
 )
 from web.routers import base_router as routers
 from .utils import cancel_all_tasks
 
-GRACEFULLY_SHUTDOWN_TIMEOUT = 30
+GRACEFULLY_SHUTDOWN_TIMEOUT = 10
 
 logger.info('Starting application initialization...')
 
@@ -41,9 +43,10 @@ async def lifespan(application: FastAPI):
     # Init the mongo connect
     await mongo_adapter.init(mongodb_config)
     await mongo_adapter.auth_mongo()
+    init_server_state(application)
     set_server_is_working(application)
     yield
-    # Clean up the ML models and release the resources
+    # stop mongo connect
     set_server_is_not_working(application)
     await mongo_adapter.close_connections()
     await cancel_all_tasks(timeout=GRACEFULLY_SHUTDOWN_TIMEOUT)
@@ -73,6 +76,9 @@ app.middleware('http')(  # for func middleware
 )  # didn't work like decorator if func not main module
 app.middleware('http')(  # for func middleware
     server_check_middleware
+)  # didn't work like decorator if func not main module
+app.middleware('http')(  # for func middleware
+    count_active_request_middleware
 )  # didn't work like decorator if func not main module
 
 

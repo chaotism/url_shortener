@@ -8,6 +8,8 @@ from starlette.exceptions import HTTPException
 
 from .utils import (
     is_server_working,
+    increase_server_count_active_request,
+    decrease_server_count_active_request,
     get_request_id,
     set_request_id,
     get_correlation_id,
@@ -19,6 +21,13 @@ async def server_check_middleware(request: Request, call_next):
     if not is_server_working(request.app):
         raise HTTPException(status_code=503)
     response = await call_next(request)
+    return response
+
+
+async def count_active_request_middleware(request: Request, call_next):
+    increase_server_count_active_request(request.app)
+    response = await call_next(request)
+    decrease_server_count_active_request(request.app)
     return response
 
 

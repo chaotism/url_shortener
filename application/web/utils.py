@@ -99,7 +99,6 @@ def retry_by_exception(
 
 async def cancel_all_tasks(timeout: int = 10):
     start_time = datetime.utcnow()
-    # from aiomisc import cancel_tasks
     for task in asyncio.all_tasks():
         if task.done():
             continue
