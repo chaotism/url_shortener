@@ -3,6 +3,7 @@ import time
 from uuid import uuid4
 
 from fastapi import Request
+from fastapi.exception_handlers import http_exception_handler
 from loguru import logger
 from starlette.exceptions import HTTPException
 
@@ -19,7 +20,10 @@ from .utils import (
 
 async def server_check_middleware(request: Request, call_next):
     if not is_server_working(request.app):
-        raise HTTPException(status_code=503)
+        return await http_exception_handler(
+            request,
+            HTTPException(status_code=503, detail='Server is stopping'),
+        )
     response = await call_next(request)
     return response
 
